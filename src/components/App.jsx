@@ -1,18 +1,18 @@
 import { GlobalStyle } from 'GlobalStyle';
-import { Box } from 'common/Box';
+
+import Searchbar from 'components/Searchbar';
+import ImageGallery from 'components/ImageGallery';
+import Button from 'components/Button';
+// import Modal from 'components/Modal';
 
 export const App = () => {
   return (
     <>
       <GlobalStyle />
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        flexDirection="column"
-      >
-        React homework template
-      </Box>
+      <Searchbar />
+      <ImageGallery />
+      <Button />
+      {/* <Modal /> */}
     </>
   );
 };
