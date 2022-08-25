@@ -1,11 +1,11 @@
-import { Overlay, ModalBox } from './Modal.styled';
+import * as SC from './Modal.styled';
 
 export default function Modal() {
   return (
-    <Overlay>
-      <ModalBox>
+    <SC.Overlay>
+      <SC.Modal>
         <img src="" alt="" />
-      </ModalBox>
-    </Overlay>
+      </SC.Modal>
+    </SC.Overlay>
   );
 }

@@ -1,15 +1,9 @@
-import { Box } from 'common/Box';
-import { ButtonLoadMore } from './Button.styled';
+import * as SC from './Button.styled';
 
-export default function Button() {
+export default function Button({ onClick }) {
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      flexDirection="column"
-    >
-      <ButtonLoadMore type="button">Load more</ButtonLoadMore>
-    </Box>
+    <SC.Button onClick={onClick} type="button">
+      Load more
+    </SC.Button>
   );
 }

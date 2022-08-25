@@ -1,9 +1,9 @@
-import { GalleryItem, GalleryItemImage } from './ImageGalleryItem.styled';
+import * as SC from './ImageGalleryItem.styled';
 
-export default function ImageGalleryItem() {
+export default function ImageGalleryItem({ srcImg, altImg, dataImg }) {
   return (
-    <GalleryItem>
-      <GalleryItemImage src="" alt="" />
-    </GalleryItem>
+    <SC.GalleryItem>
+      <SC.ItemImage src={srcImg} alt={altImg} data-image={dataImg} />
+    </SC.GalleryItem>
   );
 }

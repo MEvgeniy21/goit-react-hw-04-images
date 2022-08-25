@@ -1,10 +1,20 @@
-import { Gallery } from './ImageGallery.styled';
+import * as SC from './ImageGallery.styled';
 import ImageGalleryItem from 'components/ImageGalleryItem';
 
-export default function ImageGallery() {
+export default function ImageGallery({ photos }) {
   return (
-    <Gallery>
-      <ImageGalleryItem />
-    </Gallery>
+    <SC.Gallery>
+      {photos.length !== 0 &&
+        photos.map(({ id, webformatURL, largeImageURL, tags }) => {
+          return (
+            <ImageGalleryItem
+              key={id}
+              srcImg={webformatURL}
+              altImg={tags}
+              dataImg={largeImageURL}
+            />
+          );
+        })}
+    </SC.Gallery>
   );
 }

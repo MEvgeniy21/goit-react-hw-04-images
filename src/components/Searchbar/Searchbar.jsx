@@ -1,37 +1,31 @@
 import { Formik } from 'formik';
-import {
-  SearchHeader,
-  SearchForm,
-  SearchFormBtn,
-  SearchFormBtnIcon,
-  SearchFormInput,
-} from './Searchbar.styled';
+import * as SC from './Searchbar.styled';
 
 const INITIAL_VALUE = { search: '' };
 
-export default function Searchbar() {
+export default function Searchbar({ onSubmit }) {
   const handleSubmit = (values, actions) => {
-    console.log(values);
+    onSubmit(values);
     actions.resetForm();
   };
 
   return (
-    <SearchHeader>
+    <SC.Header>
       <Formik initialValues={INITIAL_VALUE} onSubmit={handleSubmit}>
-        <SearchForm>
-          <SearchFormBtn type="submit">
-            <SearchFormBtnIcon />
-          </SearchFormBtn>
+        <SC.SearchForm>
+          <SC.Button type="submit">
+            <SC.Icon />
+          </SC.Button>
 
-          <SearchFormInput
+          <SC.Input
             name="search"
             type="text"
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
           />
-        </SearchForm>
+        </SC.SearchForm>
       </Formik>
-    </SearchHeader>
+    </SC.Header>
   );
 }

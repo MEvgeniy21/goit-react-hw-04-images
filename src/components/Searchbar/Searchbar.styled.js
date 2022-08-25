@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Form, Field } from 'formik';
 import { AiOutlineSearch } from 'react-icons/ai';
 
-export const SearchHeader = styled.header`
+export const Header = styled.header`
   top: 0;
   left: 0;
   position: sticky;
@@ -31,7 +31,7 @@ export const SearchForm = styled(Form)`
   overflow: hidden;
 `;
 
-export const SearchFormBtn = styled.button`
+export const Button = styled.button`
   display: inline-block;
   width: 48px;
   height: 48px;
@@ -46,12 +46,12 @@ export const SearchFormBtn = styled.button`
   }
 `;
 
-export const SearchFormBtnIcon = styled(AiOutlineSearch)`
+export const Icon = styled(AiOutlineSearch)`
   width: 24px;
   height: 24px;
 `;
 
-export const SearchFormInput = styled(Field)`
+export const Input = styled(Field)`
   display: inline-block;
   width: 100%;
   font: inherit;
