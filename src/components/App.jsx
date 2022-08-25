@@ -48,7 +48,7 @@ export class App extends Component {
     }
   }
 
-  searchQuery = search => {
+  searchQuery = ({ search }) => {
     this.setState({ search });
   };
 
