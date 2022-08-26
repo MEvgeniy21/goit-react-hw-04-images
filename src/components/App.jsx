@@ -2,9 +2,7 @@ import { GlobalStyle } from 'GlobalStyle';
 import { Box } from 'common/Box';
 import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
-
 import { Component } from 'react';
-// import Modal from 'components/Modal';
 import { fetchImage } from 'api/fetchPixabay';
 import StatusBox from 'components/StatusBox';
 
@@ -35,8 +33,6 @@ export class App extends Component {
       this.state.search !== prevState.search ||
       this.state.page !== prevState.page
     ) {
-      console.log('Fetch: ', this.state);
-
       this.setState({ status: statusList.PENDING });
 
       fetchImage(this.state)
@@ -58,7 +54,10 @@ export class App extends Component {
             status: statusList.RESOLVED,
           }));
         })
-        .catch(error => this.setState({ error, status: statusList.REJECTED }));
+        .catch(error => this.setState({ error, status: statusList.REJECTED }))
+        .finally(() => {
+          console.log('Fetch: ', this.state);
+        });
     }
   }
 
@@ -95,7 +94,6 @@ export class App extends Component {
             onClickLoadMore={this.nextPage}
           />
         </Box>
-        {/* <Modal /> */}
       </>
     );
   }

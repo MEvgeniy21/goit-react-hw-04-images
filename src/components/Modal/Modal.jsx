@@ -1,10 +1,10 @@
 import * as SC from './Modal.styled';
 
-export default function Modal() {
+export default function Modal({ urlImg, altImg }) {
   return (
     <SC.Overlay>
       <SC.Modal>
-        <img src="" alt="" />
+        <img src={urlImg} alt={altImg} />
       </SC.Modal>
     </SC.Overlay>
   );
