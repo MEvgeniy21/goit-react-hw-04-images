@@ -3,11 +3,11 @@ import * as SC from './Modal.styled';
 
 export default class Modal extends Component {
   componentDidMount() {
-    document.addEventListener('keydown', this.props.onEscModal);
+    document.addEventListener('keydown', this.props.onKeyPressModal);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.props.onEscModal);
+    document.removeEventListener('keydown', this.props.onKeyPressModal);
   }
 
   render() {

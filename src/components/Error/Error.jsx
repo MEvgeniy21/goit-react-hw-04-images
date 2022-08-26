@@ -1,3 +1,3 @@
 export default function Error({ error }) {
-  return <>{error.mesage}</>;
+  return <>{error.message}</>;
 }

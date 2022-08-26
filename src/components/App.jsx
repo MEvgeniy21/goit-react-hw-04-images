@@ -5,6 +5,8 @@ import ImageGallery from 'components/ImageGallery';
 import { Component } from 'react';
 import { fetchImage } from 'api/fetchPixabay';
 import StatusBox from 'components/StatusBox';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const statusList = {
   IDLE: 'idle',
@@ -45,6 +47,9 @@ export class App extends Component {
             // Notify.failure(
             //   'Sorry, there are no images matching your search query. Please try again.'
             // );
+            toast.info(
+              'Sorry, there are no images matching your search query. Please try again.'
+            );
             return;
           }
           // console.log(`Hooray! We found ${total} images.`);
@@ -54,8 +59,12 @@ export class App extends Component {
             total: parseInt(materials.total, 10),
             photos: [...prevState.photos, ...materials.hits],
           }));
+          toast.success(`Hooray! We found ${materials.total} images.`);
         })
-        .catch(error => this.setState({ error, status: statusList.REJECTED }));
+        .catch(error => {
+          this.setState({ error, status: statusList.REJECTED });
+          toast.warning(error.message);
+        });
     }
   }
 
@@ -92,6 +101,7 @@ export class App extends Component {
             onClickLoadMore={this.nextPage}
           />
         </Box>
+        <ToastContainer />
       </>
     );
   }

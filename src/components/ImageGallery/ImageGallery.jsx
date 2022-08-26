@@ -33,7 +33,7 @@ export default class ImageGallery extends Component {
     this.resetState();
   };
 
-  handleEscModal = e => {
+  handleKeyPressModal = e => {
     if (e.keyCode !== 27) {
       return;
     }
@@ -41,8 +41,7 @@ export default class ImageGallery extends Component {
     this.resetState();
   };
 
-  resetState = e => {
-    console.log(e);
+  resetState = () => {
     this.setState({
       ...INITIAL_GALLERY,
     });
@@ -70,7 +69,7 @@ export default class ImageGallery extends Component {
         {isModalOpen && (
           <Modal
             onClickModal={this.handleClickModal}
-            onEscModal={this.handleEscModal}
+            onKeyPressModal={this.handleKeyPressModal}
             urlImg={urlImg}
             altImg={altImg}
           />
