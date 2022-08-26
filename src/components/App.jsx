@@ -7,7 +7,6 @@ import { fetchImage } from 'api/fetchPixabay';
 import StatusBox from 'components/StatusBox';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { scrollLoadMore } from 'utilities';
 
 const statusList = {
   IDLE: 'idle',
@@ -60,8 +59,6 @@ export class App extends Component {
 
           if (this.state.page === 1) {
             toast.success(`Hooray! We found ${materials.total} images.`);
-          } else {
-            scrollLoadMore();
           }
         })
         .catch(error => {
