@@ -18,8 +18,20 @@ export default class ImageGallery extends Component {
     if (e.target.nodeName !== 'IMG') {
       return;
     }
-    console.log(e.target.getAttribute('alt'));
-    console.log(e.target.dataset.image);
+    this.setState({
+      isModalOpen: true,
+      urlImg: e.target.dataset.image,
+      altImg: e.target.getAttribute('alt'),
+    });
+  };
+
+  handleClickModal = e => {
+    if (e.target.nodeName === 'IMG') {
+      return;
+    }
+    this.setState({
+      ...INITIAL_GALLERY,
+    });
   };
 
   render() {
@@ -41,7 +53,13 @@ export default class ImageGallery extends Component {
               );
             })}
         </SC.Gallery>
-        {isModalOpen && <Modal urlImg={urlImg} altImg={altImg} />}
+        {isModalOpen && (
+          <Modal
+            onClickModal={this.handleClickModal}
+            urlImg={urlImg}
+            altImg={altImg}
+          />
+        )}
       </>
     );
   }

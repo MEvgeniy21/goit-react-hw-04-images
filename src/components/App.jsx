@@ -55,10 +55,7 @@ export class App extends Component {
             photos: [...prevState.photos, ...materials.hits],
           }));
         })
-        .catch(error => this.setState({ error, status: statusList.REJECTED }))
-        .finally(() => {
-          console.log('Fetch: ', this.state);
-        });
+        .catch(error => this.setState({ error, status: statusList.REJECTED }));
     }
   }
 
