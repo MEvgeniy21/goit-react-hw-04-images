@@ -26,10 +26,11 @@ export default class ImageGallery extends Component {
   };
 
   handleClickModal = e => {
+    console.log(e);
     if (e.target.nodeName === 'IMG') {
       return;
     }
-    console.log(e);
+
     this.setState({
       ...INITIAL_GALLERY,
     });
