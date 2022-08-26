@@ -26,11 +26,17 @@ export default class ImageGallery extends Component {
   };
 
   handleClickModal = e => {
-    console.log(e);
+    document.addEventListener('keydown', this.resetState);
+
     if (e.target.nodeName === 'IMG') {
       return;
     }
 
+    this.resetState();
+  };
+
+  resetState = e => {
+    console.log(e);
     this.setState({
       ...INITIAL_GALLERY,
     });
@@ -58,6 +64,7 @@ export default class ImageGallery extends Component {
         {isModalOpen && (
           <Modal
             onClickModal={this.handleClickModal}
+            onResetState={this.resetState}
             urlImg={urlImg}
             altImg={altImg}
           />
