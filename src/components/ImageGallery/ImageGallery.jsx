@@ -15,7 +15,11 @@ export default class ImageGallery extends Component {
   };
 
   handleClickPhoto = e => {
-    console.log(e.target.nodeName);
+    if (e.target.nodeName !== 'IMG') {
+      return;
+    }
+    console.log(e.target.getAttribute('alt'));
+    console.log(e.target.dataset.image);
   };
 
   render() {

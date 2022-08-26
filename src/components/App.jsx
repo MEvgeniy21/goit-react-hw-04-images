@@ -38,6 +38,7 @@ export class App extends Component {
       fetchImage(this.state)
         .then(materials => {
           if (!materials.hits.length) {
+            this.setState({ status: statusList.IDLE });
             // console.log(
             //   'Sorry, there are no images matching your search query. Please try again.'
             // );
@@ -49,9 +50,9 @@ export class App extends Component {
           // console.log(`Hooray! We found ${total} images.`);
           // Notify.success(`Hooray! We found ${total} images.`);
           this.setState(prevState => ({
+            status: statusList.RESOLVED,
             total: parseInt(materials.total, 10),
             photos: [...prevState.photos, ...materials.hits],
-            status: statusList.RESOLVED,
           }));
         })
         .catch(error => this.setState({ error, status: statusList.REJECTED }))
