@@ -7,6 +7,7 @@ import { fetchImage } from 'api/fetchPixabay';
 import StatusBox from 'components/StatusBox';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { scrollLoadMore } from 'utilities';
 
 const statusList = {
   IDLE: 'idle',
@@ -45,19 +46,12 @@ export class App extends Component {
         .then(materials => {
           if (!materials.hits.length) {
             this.setState({ status: statusList.IDLE });
-            // console.log(
-            //   'Sorry, there are no images matching your search query. Please try again.'
-            // );
-            // Notify.failure(
-            //   'Sorry, there are no images matching your search query. Please try again.'
-            // );
             toast.info(
               'Sorry, there are no images matching your search query. Please try again.'
             );
             return;
           }
-          // console.log(`Hooray! We found ${total} images.`);
-          // Notify.success(`Hooray! We found ${total} images.`);
+
           this.setState(prevState => ({
             status: statusList.RESOLVED,
             total: parseInt(materials.total, 10),
@@ -66,6 +60,8 @@ export class App extends Component {
 
           if (this.state.page === 1) {
             toast.success(`Hooray! We found ${materials.total} images.`);
+          } else {
+            scrollLoadMore();
           }
         })
         .catch(error => {
@@ -76,7 +72,10 @@ export class App extends Component {
   }
 
   searchQuery = ({ search }) => {
-    this.setState({ search, ...INITIAL_QUERY_PARAM });
+    this.setState({
+      search: search.trim().toLowerCase(),
+      ...INITIAL_QUERY_PARAM,
+    });
   };
 
   nextPage = () => {

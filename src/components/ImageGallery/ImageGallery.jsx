@@ -53,7 +53,7 @@ export default class ImageGallery extends Component {
 
     return (
       <>
-        <SC.Gallery onClick={this.handleClickPhoto}>
+        <SC.Gallery onClick={this.handleClickPhoto} className="gallery">
           {photos.length !== 0 &&
             photos.map(({ id, webformatURL, largeImageURL, tags }) => {
               return (
