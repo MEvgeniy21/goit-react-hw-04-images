@@ -20,7 +20,10 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.search !== prevState.search) {
+    if (
+      this.state.search !== prevState.search ||
+      this.state.page !== prevState.page
+    ) {
       console.log('Fetch: ', this.state);
 
       this.setState({ isLoading: true });
@@ -38,10 +41,10 @@ export class App extends Component {
           }
           // console.log(`Hooray! We found ${total} images.`);
           // Notify.success(`Hooray! We found ${total} images.`);
-          this.setState({
+          this.setState(prevState => ({
             total: parseInt(materials.total, 10),
-            photos: materials.hits,
-          });
+            photos: [...prevState.photos, ...materials.hits],
+          }));
         })
         .catch(error => this.setState({ error }))
         .finally(() => this.setState({ isLoading: false }));
@@ -49,7 +52,7 @@ export class App extends Component {
   }
 
   searchQuery = ({ search }) => {
-    this.setState({ search });
+    this.setState({ search, photos: [], page: 1 });
   };
 
   nextPage = () => {
@@ -61,6 +64,7 @@ export class App extends Component {
   render() {
     const { page, per_page, total, photos } = this.state;
     const isLoadMore = page < Math.ceil(total / per_page);
+
     return (
       <>
         <GlobalStyle />
