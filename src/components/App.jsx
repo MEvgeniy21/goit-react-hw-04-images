@@ -35,6 +35,10 @@ export class App extends Component {
       this.state.search !== prevState.search ||
       this.state.page !== prevState.page
     ) {
+      if (this.state.search.length < 3) {
+        toast.warning('Few characters to search');
+        return;
+      }
       this.setState({ status: statusList.PENDING });
 
       fetchImage(this.state)
@@ -59,11 +63,14 @@ export class App extends Component {
             total: parseInt(materials.total, 10),
             photos: [...prevState.photos, ...materials.hits],
           }));
-          toast.success(`Hooray! We found ${materials.total} images.`);
+
+          if (this.state.page === 1) {
+            toast.success(`Hooray! We found ${materials.total} images.`);
+          }
         })
         .catch(error => {
           this.setState({ error, status: statusList.REJECTED });
-          toast.warning(error.message);
+          toast.error(error.message);
         });
     }
   }
