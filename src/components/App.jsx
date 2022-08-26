@@ -52,7 +52,7 @@ export class App extends Component {
   }
 
   searchQuery = ({ search }) => {
-    this.setState({ search, photos: [], page: 1 });
+    this.setState({ search, photos: [], page: 1, total: 0 });
   };
 
   nextPage = () => {
@@ -62,7 +62,7 @@ export class App extends Component {
   };
 
   render() {
-    const { page, per_page, total, photos } = this.state;
+    const { page, per_page, total, photos, isLoading } = this.state;
     const isLoadMore = page < Math.ceil(total / per_page);
 
     return (
@@ -76,8 +76,8 @@ export class App extends Component {
           justifyContent="center"
           flexDirection="column"
         >
-          {isLoadMore && <Button onClick={this.nextPage} />}
-          <Loader />
+          {isLoading &&
+            (isLoadMore && <Button onClick={this.nextPage} />)(<Loader />)}
         </Box>
         {/* <Modal /> */}
       </>
