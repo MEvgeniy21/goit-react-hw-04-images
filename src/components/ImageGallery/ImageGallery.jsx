@@ -26,8 +26,6 @@ export default class ImageGallery extends Component {
   };
 
   handleClickModal = e => {
-    document.addEventListener('keydown', this.resetState);
-
     if (e.target.nodeName === 'IMG') {
       return;
     }
