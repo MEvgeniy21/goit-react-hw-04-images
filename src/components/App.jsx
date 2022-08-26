@@ -2,21 +2,32 @@ import { GlobalStyle } from 'GlobalStyle';
 import { Box } from 'common/Box';
 import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
-import Button from 'components/Button';
-import Loader from 'components/Loader';
+
 import { Component } from 'react';
 // import Modal from 'components/Modal';
 import { fetchImage } from 'api/fetchPixabay';
+import StatusBox from 'components/StatusBox';
+
+const statusList = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  RESOLVED: 'resolved',
+  REJECTED: 'rejected',
+};
+
+const INITIAL_QUERY_PARAM = {
+  page: 1,
+  per_page: 12,
+  total: 0,
+  photos: [],
+  error: '',
+};
 
 export class App extends Component {
   state = {
     search: '',
-    page: 1,
-    per_page: 12,
-    total: 0,
-    photos: [],
-    error: '',
-    isLoading: false,
+    ...INITIAL_QUERY_PARAM,
+    status: statusList.IDLE,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -26,7 +37,7 @@ export class App extends Component {
     ) {
       console.log('Fetch: ', this.state);
 
-      this.setState({ isLoading: true });
+      this.setState({ status: statusList.PENDING });
 
       fetchImage(this.state)
         .then(materials => {
@@ -44,15 +55,15 @@ export class App extends Component {
           this.setState(prevState => ({
             total: parseInt(materials.total, 10),
             photos: [...prevState.photos, ...materials.hits],
+            status: statusList.RESOLVED,
           }));
         })
-        .catch(error => this.setState({ error }))
-        .finally(() => this.setState({ isLoading: false }));
+        .catch(error => this.setState({ error, status: statusList.REJECTED }));
     }
   }
 
   searchQuery = ({ search }) => {
-    this.setState({ search, photos: [], page: 1, total: 0 });
+    this.setState({ search, ...INITIAL_QUERY_PARAM });
   };
 
   nextPage = () => {
@@ -62,7 +73,7 @@ export class App extends Component {
   };
 
   render() {
-    const { page, per_page, total, photos, isLoading } = this.state;
+    const { page, per_page, total, photos, status, error } = this.state;
     const isLoadMore = page < Math.ceil(total / per_page);
 
     return (
@@ -76,8 +87,13 @@ export class App extends Component {
           justifyContent="center"
           flexDirection="column"
         >
-          {isLoading &&
-            (isLoadMore && <Button onClick={this.nextPage} />)(<Loader />)}
+          <StatusBox
+            statusList={statusList}
+            currentStatus={status}
+            error={error}
+            isLoadMore={isLoadMore}
+            onClickLoadMore={this.nextPage}
+          />
         </Box>
         {/* <Modal /> */}
       </>
