@@ -29,6 +29,7 @@ export default class ImageGallery extends Component {
     if (e.target.nodeName === 'IMG') {
       return;
     }
+    console.log(e);
     this.setState({
       ...INITIAL_GALLERY,
     });
