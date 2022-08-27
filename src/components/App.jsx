@@ -34,7 +34,6 @@ export class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (
       this.state.search !== prevState.search ||
-      this.state.search !== '' ||
       this.state.page !== prevState.page
     ) {
       if (this.state.search.length < 3) {
