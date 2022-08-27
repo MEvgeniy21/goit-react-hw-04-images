@@ -36,19 +36,17 @@ export class App extends Component {
       this.state.search !== prevState.search ||
       this.state.page !== prevState.page
     ) {
-      if (this.state.search.length < 3) {
-        toast.warning('Few characters to search');
-        return;
-      }
       this.setState({ status: statusList.PENDING });
 
       fetchImage(this.state)
         .then(materials => {
           if (!materials.hits.length) {
-            this.setState({ status: statusList.IDLE });
             toast.info(
               'Sorry, there are no images matching your search query. Please try again.'
             );
+            this.setState(s => ({
+              ...prevState,
+            }));
             return;
           }
 
@@ -61,7 +59,7 @@ export class App extends Component {
           if (this.state.page === 1) {
             toast.success(`Hooray! We found ${materials.total} images.`);
           } else {
-            setTimeout(scrollLoadMore, 250);
+            setTimeout(scrollLoadMore, 100);
           }
         })
         .catch(error => {
@@ -72,8 +70,15 @@ export class App extends Component {
   }
 
   searchQuery = ({ search }) => {
+    const querySearch = search.trim().toLowerCase();
+
+    if (querySearch.length < 3) {
+      toast.warning('Few characters to search');
+      return;
+    }
+
     this.setState({
-      search: search.trim().toLowerCase(),
+      search: querySearch,
       ...INITIAL_QUERY_PARAM,
     });
   };
