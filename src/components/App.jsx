@@ -51,14 +51,12 @@ export class App extends Component {
             return;
           }
 
+          this.setState({ status: statusList.RESOLVED });
           if (!isWrongQuery) {
             this.setState(prevState => ({
-              status: statusList.RESOLVED,
               total: parseInt(materials.total, 10),
               photos: [...prevState.photos, ...materials.hits],
             }));
-          } else {
-            this.setState({ status: statusList.RESOLVED });
           }
 
           if (page === 1 && !isWrongQuery) {
