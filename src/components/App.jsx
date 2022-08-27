@@ -51,11 +51,13 @@ export class App extends Component {
             return;
           }
 
-          this.setState(prevState => ({
-            status: statusList.RESOLVED,
-            total: parseInt(materials.total, 10),
-            photos: [...prevState.photos, ...materials.hits],
-          }));
+          if (!isWrongQuery) {
+            this.setState(prevState => ({
+              status: statusList.RESOLVED,
+              total: parseInt(materials.total, 10),
+              photos: [...prevState.photos, ...materials.hits],
+            }));
+          }
 
           if (page === 1 && !isWrongQuery) {
             toast.success(`Hooray! We found ${materials.total} images.`);
