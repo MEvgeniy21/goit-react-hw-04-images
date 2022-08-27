@@ -59,7 +59,7 @@ export class App extends Component {
 
           if (page === 1 || !isWrongQuery) {
             toast.success(`Hooray! We found ${materials.total} images.`);
-          } else {
+          } else if (page !== 1 || !isWrongQuery) {
             setTimeout(scrollLoadMore, 100);
           }
         })
