@@ -91,6 +91,7 @@ export class App extends Component {
   nextPage = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
+      isWrongQuery: false,
     }));
   };
 
