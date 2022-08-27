@@ -17,25 +17,25 @@ const statusList = {
 };
 
 const INITIAL_QUERY_PARAM = {
+  search: '',
   page: 1,
   per_page: 12,
   total: 0,
   photos: [],
   error: {},
+  isWrongQuery: false,
 };
 
 export class App extends Component {
   state = {
-    search: '',
     ...INITIAL_QUERY_PARAM,
     status: statusList.IDLE,
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      this.state.search !== prevState.search ||
-      this.state.page !== prevState.page
-    ) {
+    const { search, page, isWrongQuery } = this.state;
+
+    if (search !== prevState.search || page !== prevState.page) {
       this.setState({ status: statusList.PENDING });
 
       fetchImage(this.state)
@@ -46,6 +46,7 @@ export class App extends Component {
             );
             this.setState(s => ({
               ...prevState,
+              isWrongQuery: true,
             }));
             return;
           }
@@ -56,7 +57,7 @@ export class App extends Component {
             photos: [...prevState.photos, ...materials.hits],
           }));
 
-          if (this.state.page === 1) {
+          if (page === 1 || !isWrongQuery) {
             toast.success(`Hooray! We found ${materials.total} images.`);
           } else {
             setTimeout(scrollLoadMore, 100);
@@ -78,8 +79,8 @@ export class App extends Component {
     }
 
     this.setState({
-      search: querySearch,
       ...INITIAL_QUERY_PARAM,
+      search: querySearch,
     });
   };
 

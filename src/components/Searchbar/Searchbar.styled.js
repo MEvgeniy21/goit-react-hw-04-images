@@ -10,13 +10,13 @@ export const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 64px;
-  padding-right: 24px;
-  padding-left: 24px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  color: #fff;
-  background-color: #3f51b5;
+  min-height: ${p => p.theme.space[6]}px;
+  padding-right: ${p => p.theme.space[4]}px;
+  padding-left: ${p => p.theme.space[4]}px;
+  padding-top: ${p => p.theme.space[3]}px;
+  padding-bottom: ${p => p.theme.space[3]}px;
+  color: ${p => p.theme.colors.white};
+  background-color: ${p => p.theme.colors.bg};
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 `;
@@ -26,20 +26,20 @@ export const SearchForm = styled(Form)`
   align-items: center;
   width: 100%;
   max-width: 600px;
-  background-color: #fff;
-  border-radius: 3px;
+  background-color: ${p => p.theme.colors.white};
+  border-radius: ${p => p.theme.radii.sm};
   overflow: hidden;
 `;
 
 export const Button = styled.button`
   display: inline-block;
-  width: 48px;
-  height: 48px;
-  border: 0;
+  width: ${p => p.theme.space[5]}px;
+  height: ${p => p.theme.space[5]}px;
+  border: ${p => p.theme.borders.none};
   opacity: 0.6;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  outline: none;
+  outline: ${p => p.theme.borders.none};
 
   &:hover {
     opacity: 1;
@@ -47,22 +47,22 @@ export const Button = styled.button`
 `;
 
 export const Icon = styled(AiOutlineSearch)`
-  width: 24px;
-  height: 24px;
+  width: ${p => p.theme.space[4]}px;
+  height: ${p => p.theme.space[4]}px;
 `;
 
 export const Input = styled(Field)`
   display: inline-block;
   width: 100%;
   font: inherit;
-  font-size: 20px;
-  border: none;
-  outline: none;
-  padding-left: 4px;
-  padding-right: 4px;
+  font-size: ${p => p.theme.fontSizes.m};
+  border: ${p => p.theme.borders.none};
+  outline: ${p => p.theme.borders.none};
+  padding-left: ${p => p.theme.space[2]}px;
+  padding-right: ${p => p.theme.space[2]}px;
 
   &::placeholder {
     font: inherit;
-    font-size: 18px;
+    font-size: ${p => p.theme.fontSizes.m};
   }
 `;

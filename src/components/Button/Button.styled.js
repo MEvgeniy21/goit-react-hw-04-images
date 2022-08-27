@@ -2,19 +2,19 @@ import styled from '@emotion/styled';
 
 export const Button = styled.button`
   width: 100px;
-  padding: 8px 16px;
-  border-radius: 2px;
-  background-color: #3f51b5;
+  padding: ${p => p.theme.space[3]}px ${p => p.theme.space[4]}px;
+  border-radius: ${p => p.theme.radii.sm};
+  background-color: ${p => p.theme.colors.bg};
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
   display: inline-block;
-  color: #fff;
-  border: 0;
+  color: ${p => p.theme.colors.white};
+  border: ${p => p.theme.borders.none};
   text-decoration: none;
   cursor: pointer;
   font-family: inherit;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: ${p => p.theme.fontSizes.m};
+  line-height: ${p => p.theme.fontSizes.xm};
   font-style: normal;
   font-weight: 500;
   min-width: 180px;
@@ -23,6 +23,6 @@ export const Button = styled.button`
 
   &:focus,
   &:hover {
-    background-color: #303f9f;
+    background-color: ${p => p.theme.colors.bgAccent};
   }
 `;
