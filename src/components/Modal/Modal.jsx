@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import * as SC from './Modal.styled';
 
@@ -22,3 +23,9 @@ export default class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  onClickModal: PropTypes.func.isRequired,
+  urlImg: PropTypes.string.isRequired,
+  altImg: PropTypes.string.isRequired,
+};

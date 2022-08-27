@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as SC from './Searchbar.styled';
 
@@ -29,3 +30,7 @@ export default function Searchbar({ onSubmit }) {
     </SC.Header>
   );
 }
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

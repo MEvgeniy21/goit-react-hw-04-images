@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import * as SC from './ImageGalleryItem.styled';
 
 export default function ImageGalleryItem({ srcImg, altImg, dataImg }) {
@@ -7,3 +8,9 @@ export default function ImageGalleryItem({ srcImg, altImg, dataImg }) {
     </SC.GalleryItem>
   );
 }
+
+ImageGalleryItem.propTypes = {
+  srcImg: PropTypes.string.isRequired,
+  altImg: PropTypes.string.isRequired,
+  dataImg: PropTypes.string.isRequired,
+};

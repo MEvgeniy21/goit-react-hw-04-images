@@ -21,7 +21,7 @@ const INITIAL_QUERY_PARAM = {
   per_page: 12,
   total: 0,
   photos: [],
-  error: '',
+  error: {},
 };
 
 export class App extends Component {
@@ -61,7 +61,7 @@ export class App extends Component {
           if (this.state.page === 1) {
             toast.success(`Hooray! We found ${materials.total} images.`);
           } else {
-            setTimeout(scrollLoadMore, 500);
+            setTimeout(scrollLoadMore, 250);
           }
         })
         .catch(error => {

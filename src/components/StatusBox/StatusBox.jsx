@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Button from 'components/Button';
 import Error from 'components/Error';
 import Loader from 'components/Loader';
@@ -19,3 +20,11 @@ export default function StatusBox({
     return <Error error={error} />;
   }
 }
+
+StatusBox.propTypes = {
+  statusList: PropTypes.objectOf(PropTypes.string).isRequired,
+  currentStatus: PropTypes.string.isRequired,
+  error: PropTypes.object.isRequired,
+  isLoadMore: PropTypes.bool.isRequired,
+  onClickLoadMore: PropTypes.func.isRequired,
+};

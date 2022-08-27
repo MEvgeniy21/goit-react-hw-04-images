@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import * as SC from './ImageGallery.styled';
 import ImageGalleryItem from 'components/ImageGalleryItem';
 import { Component } from 'react';
@@ -78,3 +79,7 @@ export default class ImageGallery extends Component {
     );
   }
 }
+
+ImageGallery.propTypes = {
+  photos: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
