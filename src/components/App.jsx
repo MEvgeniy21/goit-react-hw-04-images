@@ -57,6 +57,8 @@ export class App extends Component {
               total: parseInt(materials.total, 10),
               photos: [...prevState.photos, ...materials.hits],
             }));
+          } else {
+            this.setState({ status: statusList.RESOLVED });
           }
 
           if (page === 1 && !isWrongQuery) {
