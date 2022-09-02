@@ -34,6 +34,7 @@ export function App() {
   const [photos, setPhotos] = useState([]);
   const [error, setError] = useState({});
   const [isWrongQuery, setIsWrongQuery] = useState(false);
+  let oldQuery = '';
   const per_page = 12;
   // state = {
   //   ...INITIAL_QUERY_PARAM,
@@ -53,7 +54,7 @@ export function App() {
             'Sorry, there are no images matching your search query. Please try again.'
           );
           // prevState
-          setStatus(statusList.RESOLVED);
+          setSearch(oldQuery);
 
           setIsWrongQuery(true);
           return;
@@ -76,7 +77,7 @@ export function App() {
         setStatus(statusList.REJECTED);
         toast.error(error.message);
       });
-  }, [search, page, isWrongQuery]);
+  }, [search, page, isWrongQuery, oldQuery]);
 
   // componentDidUpdate(prevProps, prevState) {
   //   const { search, page, isWrongQuery } = this.state;
@@ -118,14 +119,16 @@ export function App() {
   //   }
   // }
 
-  const searchQuery = ({ search }) => {
-    const querySearch = search.trim().toLowerCase();
+  const searchQuery = query => {
+    const querySearch = query.search.trim().toLowerCase();
 
     if (querySearch.length < 3) {
       toast.warning('Few characters to search');
       return;
     }
-
+    if (!isWrongQuery) {
+      oldQuery = search;
+    }
     setSearch(querySearch);
   };
 
