@@ -34,7 +34,8 @@ export function App() {
   const [photos, setPhotos] = useState([]);
   const [error, setError] = useState({});
   const [isWrongQuery, setIsWrongQuery] = useState(false);
-  let oldQuery = '';
+  // let oldQuery = '';
+  const [oldQuery, setOldQuery] = useState('');
   const per_page = 12;
   // state = {
   //   ...INITIAL_QUERY_PARAM,
@@ -60,7 +61,7 @@ export function App() {
           setIsWrongQuery(true);
           return;
         }
-
+        console.log(search);
         if (!isWrongQuery) {
           setTotal(parseInt(materials.total, 10));
           setPhotos(prev => [...prev, ...materials.hits]);
@@ -127,7 +128,9 @@ export function App() {
       return;
     }
     if (!isWrongQuery) {
-      oldQuery = search;
+      // oldQuery = search;
+      setOldQuery(search);
+      console.log('oldQuery: ', search);
     }
     setSearch(querySearch);
   };
