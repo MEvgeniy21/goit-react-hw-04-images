@@ -49,6 +49,7 @@ export function App() {
 
     fetchImage({ search, page, per_page })
       .then(materials => {
+        setStatus(statusList.RESOLVED);
         if (!materials.hits.length) {
           toast.info(
             'Sorry, there are no images matching your search query. Please try again.'
@@ -60,7 +61,6 @@ export function App() {
           return;
         }
 
-        setStatus(statusList.RESOLVED);
         if (!isWrongQuery) {
           setTotal(parseInt(materials.total, 10));
           setPhotos(prev => [...prev, ...materials.hits]);
