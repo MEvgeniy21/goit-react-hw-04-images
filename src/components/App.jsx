@@ -2,7 +2,7 @@ import { GlobalStyle } from 'GlobalStyle';
 import { Box } from 'common/Box';
 import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchImage } from 'api/fetchPixabay';
 import StatusBox from 'components/StatusBox';
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,63 +16,111 @@ const statusList = {
   REJECTED: 'rejected',
 };
 
-const INITIAL_QUERY_PARAM = {
-  search: '',
-  page: 1,
-  per_page: 12,
-  total: 0,
-  photos: [],
-  error: {},
-  isWrongQuery: false,
-};
+// const INITIAL_QUERY_PARAM = {
+//   search: '',
+//   page: 1,
+//   per_page: 12,
+//   total: 0,
+//   photos: [],
+//   error: {},
+//   isWrongQuery: false,
+// };
 
-export class App extends Component {
-  state = {
-    ...INITIAL_QUERY_PARAM,
-    status: statusList.IDLE,
-  };
+export function App() {
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState(statusList.IDLE);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [photos, setPhotos] = useState([]);
+  const [error, setError] = useState({});
+  const [isWrongQuery, setIsWrongQuery] = useState(false);
+  const per_page = 12;
+  // state = {
+  //   ...INITIAL_QUERY_PARAM,
+  //   status: statusList.IDLE,
+  // };
 
-  componentDidUpdate(prevProps, prevState) {
-    const { search, page, isWrongQuery } = this.state;
-
-    if (search !== prevState.search || page !== prevState.page) {
-      this.setState({ status: statusList.PENDING });
-
-      fetchImage(this.state)
-        .then(materials => {
-          if (!materials.hits.length) {
-            toast.info(
-              'Sorry, there are no images matching your search query. Please try again.'
-            );
-            this.setState(s => ({
-              ...prevState,
-              isWrongQuery: true,
-            }));
-            return;
-          }
-
-          this.setState({ status: statusList.RESOLVED });
-          if (!isWrongQuery) {
-            this.setState(prevState => ({
-              total: parseInt(materials.total, 10),
-              photos: [...prevState.photos, ...materials.hits],
-            }));
-          }
-
-          if (page === 1 && !isWrongQuery) {
-            toast.success(`Hooray! We found ${materials.total} images.`);
-          } else if (page !== 1 && !isWrongQuery) {
-            setTimeout(scrollLoadMore, 100);
-          }
-        })
-        .catch(error => {
-          this.setState({ error, status: statusList.REJECTED });
-          toast.error(error.message);
-        });
+  useEffect(() => {
+    if (search === '') {
+      return;
     }
-  }
+    setStatus(statusList.PENDING);
 
-  searchQuery = ({ search }) => {
+    fetchImage({ search, page, per_page })
+      .then(materials => {
+        if (!materials.hits.length) {
+          toast.info(
+            'Sorry, there are no images matching your search query. Please try again.'
+          );
+          // prevState
+          setSearch(prev => {
+            console.log(prev);
+            return prev;
+          });
+          setIsWrongQuery(true);
+          return;
+        }
+
+        setStatus(statusList.RESOLVED);
+        if (!isWrongQuery) {
+          setTotal(parseInt(materials.total, 10));
+          setPhotos(prev => [...prev, ...materials.hits]);
+        }
+
+        if (page === 1 && !isWrongQuery) {
+          toast.success(`Hooray! We found ${materials.total} images.`);
+        } else if (page !== 1 && !isWrongQuery) {
+          setTimeout(scrollLoadMore, 100);
+        }
+      })
+      .catch(error => {
+        setError(error);
+        setStatus(statusList.REJECTED);
+        toast.error(error.message);
+      });
+  }, [search, page, isWrongQuery]);
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { search, page, isWrongQuery } = this.state;
+
+  //   if (search !== prevState.search || page !== prevState.page) {
+  //     this.setState({ status: statusList.PENDING });
+
+  //     fetchImage(this.state)
+  //       .then(materials => {
+  //         if (!materials.hits.length) {
+  //           toast.info(
+  //             'Sorry, there are no images matching your search query. Please try again.'
+  //           );
+  //           this.setState(s => ({
+  //             ...prevState,
+  //             isWrongQuery: true,
+  //           }));
+  //           return;
+  //         }
+
+  //         this.setState({ status: statusList.RESOLVED });
+  //         if (!isWrongQuery) {
+  //           this.setState(prevState => ({
+  //             total: parseInt(materials.total, 10),
+  //             photos: [...prevState.photos, ...materials.hits],
+  //           }));
+  //         }
+
+  //         if (page === 1 && !isWrongQuery) {
+  //           toast.success(`Hooray! We found ${materials.total} images.`);
+  //         } else if (page !== 1 && !isWrongQuery) {
+  //           setTimeout(scrollLoadMore, 100);
+  //         }
+  //       })
+  //       .catch(error => {
+  //         this.setState({ error, status: statusList.REJECTED });
+  //         toast.error(error.message);
+  //       });
+  //   }
+  // }
+
+  const searchQuery = ({ search }) => {
     const querySearch = search.trim().toLowerCase();
 
     if (querySearch.length < 3) {
@@ -80,44 +128,36 @@ export class App extends Component {
       return;
     }
 
-    this.setState({
-      ...INITIAL_QUERY_PARAM,
-      search: querySearch,
-    });
+    setSearch(querySearch);
   };
 
-  nextPage = () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1,
-      isWrongQuery: false,
-    }));
+  const nextPage = () => {
+    setPage(prev => prev + 1);
+    setIsWrongQuery(false);
   };
 
-  render() {
-    const { page, per_page, total, photos, status, error } = this.state;
-    const isLoadMore = page < Math.ceil(total / per_page);
+  const isLoadMore = page < Math.ceil(total / per_page);
 
-    return (
-      <>
-        <GlobalStyle />
-        <Searchbar onSubmit={this.searchQuery} />
-        <ImageGallery photos={photos} />
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="column"
-        >
-          <StatusBox
-            statusList={statusList}
-            currentStatus={status}
-            error={error}
-            isLoadMore={isLoadMore}
-            onClickLoadMore={this.nextPage}
-          />
-        </Box>
-        <ToastContainer />
-      </>
-    );
-  }
+  return (
+    <>
+      <GlobalStyle />
+      <Searchbar onSubmit={searchQuery} />
+      <ImageGallery photos={photos} />
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="column"
+      >
+        <StatusBox
+          statusList={statusList}
+          currentStatus={status}
+          error={error}
+          isLoadMore={isLoadMore}
+          onClickLoadMore={nextPage}
+        />
+      </Box>
+      <ToastContainer />
+    </>
+  );
 }
