@@ -33,57 +33,50 @@ export function App() {
   const [total, setTotal] = useState(0);
   const [photos, setPhotos] = useState([]);
   const [error, setError] = useState({});
-  // const [isWrongQuery, setIsWrongQuery] = useState(false);
+  const [isWrongQuery, setIsWrongQuery] = useState(false);
   const per_page = 12;
   // state = {
   //   ...INITIAL_QUERY_PARAM,
   //   status: statusList.IDLE,
   // };
 
-  useEffect(
-    prevState => {
-      if (search === '') {
-        return;
-      }
-      setStatus(statusList.PENDING);
+  useEffect(() => {
+    if (search === '') {
+      return;
+    }
+    setStatus(statusList.PENDING);
 
-      fetchImage({ search, page, per_page })
-        .then(materials => {
-          if (!materials.hits.length) {
-            toast.info(
-              'Sorry, there are no images matching your search query. Please try again.'
-            );
-            // prevState
-
-            console.log(prevState);
-
-            // setIsWrongQuery(true);
-            return;
-          }
-
+    fetchImage({ search, page, per_page })
+      .then(materials => {
+        if (!materials.hits.length) {
+          toast.info(
+            'Sorry, there are no images matching your search query. Please try again.'
+          );
+          // prevState
           setStatus(statusList.RESOLVED);
-          // if (!isWrongQuery) {
+
+          setIsWrongQuery(true);
+          return;
+        }
+
+        setStatus(statusList.RESOLVED);
+        if (!isWrongQuery) {
           setTotal(parseInt(materials.total, 10));
           setPhotos(prev => [...prev, ...materials.hits]);
-          // }
+        }
 
-          // if (page === 1 && !isWrongQuery) {
-          if (page === 1) {
-            toast.success(`Hooray! We found ${materials.total} images.`);
-            // } else if (page !== 1 && !isWrongQuery) {
-          } else {
-            setTimeout(scrollLoadMore, 100);
-          }
-        })
-        .catch(error => {
-          setError(error);
-          setStatus(statusList.REJECTED);
-          toast.error(error.message);
-        });
-    },
-    [search, page]
-  );
-  // }, [search, page, isWrongQuery]);
+        if (page === 1 && !isWrongQuery) {
+          toast.success(`Hooray! We found ${materials.total} images.`);
+        } else if (page !== 1 && !isWrongQuery) {
+          setTimeout(scrollLoadMore, 100);
+        }
+      })
+      .catch(error => {
+        setError(error);
+        setStatus(statusList.REJECTED);
+        toast.error(error.message);
+      });
+  }, [search, page, isWrongQuery]);
 
   // componentDidUpdate(prevProps, prevState) {
   //   const { search, page, isWrongQuery } = this.state;
@@ -138,7 +131,7 @@ export function App() {
 
   const nextPage = () => {
     setPage(prev => prev + 1);
-    // setIsWrongQuery(false);
+    setIsWrongQuery(false);
   };
 
   const isLoadMore = page < Math.ceil(total / per_page);
