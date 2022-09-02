@@ -24,7 +24,7 @@ export default function StatusBox({
 StatusBox.propTypes = {
   statusList: PropTypes.objectOf(PropTypes.string).isRequired,
   currentStatus: PropTypes.string.isRequired,
-  error: PropTypes.object.isRequired,
+  error: PropTypes.string.isRequired,
   isLoadMore: PropTypes.bool.isRequired,
   onClickLoadMore: PropTypes.func.isRequired,
 };

@@ -32,7 +32,7 @@ export function App() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [photos, setPhotos] = useState([]);
-  const [error, setError] = useState({});
+  const [error, setError] = useState('');
   const [isWrongQuery, setIsWrongQuery] = useState(false);
   // let oldQuery = '';
   const [oldQuery, setOldQuery] = useState('');
@@ -51,6 +51,7 @@ export function App() {
     fetchImage({ search, page, per_page })
       .then(materials => {
         setStatus(statusList.RESOLVED);
+
         if (!materials.hits.length) {
           toast.info(
             'Sorry, there are no images matching your search query. Please try again.'
@@ -74,7 +75,7 @@ export function App() {
         }
       })
       .catch(error => {
-        setError(error);
+        setError(error.message);
         setStatus(statusList.REJECTED);
         toast.error(error.message);
       });
@@ -132,7 +133,10 @@ export function App() {
       setOldQuery(search);
       console.log('oldQuery: ', search);
     }
+    setPage(1);
+    setPhotos([]);
     setSearch(querySearch);
+    setError('');
   };
 
   const nextPage = () => {

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
 export default function Error({ error }) {
-  return <>{error.message}</>;
+  return <>{error}</>;
 }
 
 Error.propTypes = {
-  error: PropTypes.object.isRequired,
+  error: PropTypes.string.isRequired,
 };
