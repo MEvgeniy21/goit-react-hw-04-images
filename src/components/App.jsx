@@ -51,17 +51,19 @@ export function App() {
           return;
         }
 
-        if (!isWrongQuery) {
-          setTotal(parseInt(materials.total, 10));
-          setNewQuery(prev => ({
-            ...prev,
-            photos: [...prev.photos, ...materials.hits],
-          }));
-        }
+        // if (!isWrongQuery) {
+        setTotal(parseInt(materials.total, 10));
+        setNewQuery(prev => ({
+          ...prev,
+          photos: [...prev.photos, ...materials.hits],
+        }));
+        // }
 
-        if (page === 1 && !isWrongQuery) {
+        // if (page === 1 && !isWrongQuery) {
+        if (page === 1) {
           toast.success(`Hooray! We found ${materials.total} images.`);
-        } else if (page !== 1 && !isWrongQuery) {
+          // } else if (page !== 1 && !isWrongQuery) {
+        } else {
           setTimeout(scrollLoadMore, 100);
         }
       })
@@ -88,7 +90,7 @@ export function App() {
       search: querySearch,
     }));
     setError('');
-    // setIsWrongQuery(false);
+    setIsWrongQuery(false);
   };
 
   const nextPage = () => {
