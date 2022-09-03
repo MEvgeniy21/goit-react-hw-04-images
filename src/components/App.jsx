@@ -33,7 +33,7 @@ export function App() {
   const per_page = 12;
 
   useEffect(() => {
-    if (search === '') {
+    if (search === '' || isWrongQuery) {
       return;
     }
     setStatus(statusList.PENDING);
@@ -46,7 +46,7 @@ export function App() {
           toast.info(
             'Sorry, there are no images matching your search query. Please try again.'
           );
-          // setNewQuery(oldQuery);
+          setNewQuery(oldQuery);
           setIsWrongQuery(true);
           return;
         }
@@ -70,7 +70,7 @@ export function App() {
         setStatus(statusList.REJECTED);
         toast.error(error.message);
       });
-  }, [page, search, isWrongQuery]);
+  }, [page, search, isWrongQuery, oldQuery]);
 
   const searchQuery = query => {
     const querySearch = query.search.trim().toLowerCase();
@@ -101,7 +101,7 @@ export function App() {
 
   const isLoadMore = page < Math.ceil(total / per_page);
   const currentPhotos = isWrongQuery ? oldQuery.photos : photos;
-
+  console.log(currentPhotos);
   return (
     <>
       <GlobalStyle />
