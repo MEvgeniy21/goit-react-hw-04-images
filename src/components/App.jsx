@@ -2,7 +2,7 @@ import { GlobalStyle } from 'GlobalStyle';
 import { Box } from 'common/Box';
 import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchImage } from 'api/fetchPixabay';
 import StatusBox from 'components/StatusBox';
 import { ToastContainer, toast } from 'react-toastify';
@@ -74,9 +74,9 @@ export function App() {
       });
   }, [page, search, isWrongQuery, oldQuery]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (page !== 1 && !isWrongQuery) {
-      setTimeout(scrollLoadMore, 0);
+      setTimeout(scrollLoadMore, 100);
       // scrollLoadMore();
     }
   }, [page, isWrongQuery]);
