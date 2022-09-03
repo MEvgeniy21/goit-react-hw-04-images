@@ -142,6 +142,7 @@ export function App() {
     // setPhotos([]);
     // setSearch(querySearch);
     setError('');
+    setIsWrongQuery(false);
   };
 
   const nextPage = () => {
@@ -149,6 +150,7 @@ export function App() {
       ...prev,
       page: prev.page + 1,
     }));
+    setOldQuery(newQuery);
     setIsWrongQuery(false);
   };
 
