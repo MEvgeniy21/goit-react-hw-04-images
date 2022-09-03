@@ -46,7 +46,7 @@ export function App() {
           toast.info(
             'Sorry, there are no images matching your search query. Please try again.'
           );
-          setNewQuery(oldQuery);
+          // setNewQuery(oldQuery);
           setIsWrongQuery(true);
           return;
         }
@@ -70,7 +70,7 @@ export function App() {
         setStatus(statusList.REJECTED);
         toast.error(error.message);
       });
-  }, [page, search, isWrongQuery, oldQuery]);
+  }, [page, search, isWrongQuery]);
 
   const searchQuery = query => {
     const querySearch = query.search.trim().toLowerCase();
