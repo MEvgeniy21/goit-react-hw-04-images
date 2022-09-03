@@ -16,26 +16,25 @@ const statusList = {
   REJECTED: 'rejected',
 };
 
-// const INITIAL_QUERY_PARAM = {
-//   search: '',
-//   page: 1,
-//   per_page: 12,
-//   total: 0,
-//   photos: [],
-//   error: {},
-//   isWrongQuery: false,
-// };
+const INITIAL_QUERY_PARAM = {
+  search: '',
+  page: 1,
+  photos: [],
+};
 
 export function App() {
-  const [search, setSearch] = useState('');
+  const [newQuery, setNewQuery] = useState(INITIAL_QUERY_PARAM);
+  const { search, page, photos } = newQuery;
+  // const [search, setSearch] = useState('');
+
   const [status, setStatus] = useState(statusList.IDLE);
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [photos, setPhotos] = useState([]);
+  // const [photos, setPhotos] = useState([]);
   const [error, setError] = useState('');
   const [isWrongQuery, setIsWrongQuery] = useState(false);
   // let oldQuery = '';
-  const [oldQuery, setOldQuery] = useState('');
+  const [oldQuery, setOldQuery] = useState(INITIAL_QUERY_PARAM);
   const per_page = 12;
   // state = {
   //   ...INITIAL_QUERY_PARAM,
@@ -57,7 +56,7 @@ export function App() {
             'Sorry, there are no images matching your search query. Please try again.'
           );
           // prevState
-          setSearch(oldQuery);
+          setNewQuery(oldQuery);
 
           setIsWrongQuery(true);
           return;
@@ -65,7 +64,10 @@ export function App() {
         console.log(search);
         if (!isWrongQuery) {
           setTotal(parseInt(materials.total, 10));
-          setPhotos(prev => [...prev, ...materials.hits]);
+          setNewQuery(prev => ({
+            ...prev,
+            photos: [...prev.photos, ...materials.hits],
+          }));
         }
 
         if (page === 1 && !isWrongQuery) {
@@ -130,17 +132,23 @@ export function App() {
     }
     if (!isWrongQuery) {
       // oldQuery = search;
-      setOldQuery(search);
-      console.log('oldQuery: ', search);
+      setOldQuery(newQuery);
+      console.log('oldQuery: ', newQuery.search);
     }
-    setPage(1);
-    setPhotos([]);
-    setSearch(querySearch);
+    setNewQuery(prev => ({
+      ...INITIAL_QUERY_PARAM,
+      search: querySearch,
+    }));
+    // setPhotos([]);
+    // setSearch(querySearch);
     setError('');
   };
 
   const nextPage = () => {
-    setPage(prev => prev + 1);
+    setNewQuery(prev => ({
+      ...prev,
+      page: prev.page + 1,
+    }));
     setIsWrongQuery(false);
   };
 
