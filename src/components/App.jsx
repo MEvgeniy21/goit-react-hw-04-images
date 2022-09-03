@@ -24,7 +24,6 @@ const INITIAL_QUERY_PARAM = {
 
 export function App() {
   const [newQuery, setNewQuery] = useState(INITIAL_QUERY_PARAM);
-  const { search, page, photos } = newQuery;
 
   const [status, setStatus] = useState(statusList.IDLE);
   const [total, setTotal] = useState(0);
@@ -34,6 +33,7 @@ export function App() {
   const per_page = 12;
 
   useEffect(() => {
+    const { search, page } = newQuery;
     if (search === '') {
       return;
     }
@@ -71,7 +71,7 @@ export function App() {
         setStatus(statusList.REJECTED);
         toast.error(error.message);
       });
-  }, [search, page, isWrongQuery, oldQuery]);
+  }, [newQuery, isWrongQuery, oldQuery]);
 
   const searchQuery = query => {
     const querySearch = query.search.trim().toLowerCase();
@@ -89,7 +89,7 @@ export function App() {
       search: querySearch,
     }));
     setError('');
-    setIsWrongQuery(false);
+    // setIsWrongQuery(false);
   };
 
   const nextPage = () => {
@@ -100,6 +100,7 @@ export function App() {
     setIsWrongQuery(false);
   };
 
+  const { page, photos } = newQuery;
   const isLoadMore = page < Math.ceil(total / per_page);
 
   return (
