@@ -2,7 +2,7 @@ import { GlobalStyle } from 'GlobalStyle';
 import { Box } from 'common/Box';
 import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { fetchImage } from 'api/fetchPixabay';
 import StatusBox from 'components/StatusBox';
 import { ToastContainer, toast } from 'react-toastify';
@@ -63,8 +63,8 @@ export function App() {
         if (page === 1) {
           toast.success(`Hooray! We found ${materials.total} images.`);
           // } else if (page !== 1 && !isWrongQuery) {
-        } else {
-          setTimeout(scrollLoadMore, 100);
+          // } else {
+          //   setTimeout(scrollLoadMore, 100);
         }
       })
       .catch(error => {
@@ -73,6 +73,13 @@ export function App() {
         toast.error(error.message);
       });
   }, [page, search, isWrongQuery, oldQuery]);
+
+  useLayoutEffect(() => {
+    if (page !== 1 && !isWrongQuery) {
+      // setTimeout(scrollLoadMore, 100);
+      scrollLoadMore();
+    }
+  }, [page, isWrongQuery]);
 
   const searchQuery = query => {
     const querySearch = query.search.trim().toLowerCase();
