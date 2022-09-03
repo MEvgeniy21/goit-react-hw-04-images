@@ -76,8 +76,8 @@ export function App() {
 
   useLayoutEffect(() => {
     if (page !== 1 && !isWrongQuery) {
-      // setTimeout(scrollLoadMore, 100);
-      scrollLoadMore();
+      setTimeout(scrollLoadMore, 100);
+      // scrollLoadMore();
     }
   }, [page, isWrongQuery]);
 
