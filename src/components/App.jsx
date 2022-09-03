@@ -25,21 +25,13 @@ const INITIAL_QUERY_PARAM = {
 export function App() {
   const [newQuery, setNewQuery] = useState(INITIAL_QUERY_PARAM);
   const { search, page, photos } = newQuery;
-  // const [search, setSearch] = useState('');
 
   const [status, setStatus] = useState(statusList.IDLE);
-  // const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  // const [photos, setPhotos] = useState([]);
   const [error, setError] = useState('');
   const [isWrongQuery, setIsWrongQuery] = useState(false);
-  // let oldQuery = '';
   const [oldQuery, setOldQuery] = useState(INITIAL_QUERY_PARAM);
   const per_page = 12;
-  // state = {
-  //   ...INITIAL_QUERY_PARAM,
-  //   status: statusList.IDLE,
-  // };
 
   useEffect(() => {
     if (search === '') {
@@ -55,13 +47,11 @@ export function App() {
           toast.info(
             'Sorry, there are no images matching your search query. Please try again.'
           );
-          // prevState
           setNewQuery(oldQuery);
-
           setIsWrongQuery(true);
           return;
         }
-        console.log(search);
+
         if (!isWrongQuery) {
           setTotal(parseInt(materials.total, 10));
           setNewQuery(prev => ({
@@ -83,46 +73,6 @@ export function App() {
       });
   }, [search, page, isWrongQuery, oldQuery]);
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { search, page, isWrongQuery } = this.state;
-
-  //   if (search !== prevState.search || page !== prevState.page) {
-  //     this.setState({ status: statusList.PENDING });
-
-  //     fetchImage(this.state)
-  //       .then(materials => {
-  //         if (!materials.hits.length) {
-  //           toast.info(
-  //             'Sorry, there are no images matching your search query. Please try again.'
-  //           );
-  //           this.setState(s => ({
-  //             ...prevState,
-  //             isWrongQuery: true,
-  //           }));
-  //           return;
-  //         }
-
-  //         this.setState({ status: statusList.RESOLVED });
-  //         if (!isWrongQuery) {
-  //           this.setState(prevState => ({
-  //             total: parseInt(materials.total, 10),
-  //             photos: [...prevState.photos, ...materials.hits],
-  //           }));
-  //         }
-
-  //         if (page === 1 && !isWrongQuery) {
-  //           toast.success(`Hooray! We found ${materials.total} images.`);
-  //         } else if (page !== 1 && !isWrongQuery) {
-  //           setTimeout(scrollLoadMore, 100);
-  //         }
-  //       })
-  //       .catch(error => {
-  //         this.setState({ error, status: statusList.REJECTED });
-  //         toast.error(error.message);
-  //       });
-  //   }
-  // }
-
   const searchQuery = query => {
     const querySearch = query.search.trim().toLowerCase();
 
@@ -131,16 +81,13 @@ export function App() {
       return;
     }
     if (!isWrongQuery) {
-      // oldQuery = search;
       setOldQuery(newQuery);
-      console.log('oldQuery: ', newQuery.search);
     }
+
     setNewQuery(prev => ({
       ...INITIAL_QUERY_PARAM,
       search: querySearch,
     }));
-    // setPhotos([]);
-    // setSearch(querySearch);
     setError('');
     setIsWrongQuery(false);
   };
@@ -150,7 +97,6 @@ export function App() {
       ...prev,
       page: prev.page + 1,
     }));
-    setOldQuery(newQuery);
     setIsWrongQuery(false);
   };
 
