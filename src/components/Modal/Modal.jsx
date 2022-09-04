@@ -1,27 +1,28 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useEffect } from 'react';
 import * as SC from './Modal.styled';
 
-export default class Modal extends Component {
-  componentDidMount() {
-    document.addEventListener('keydown', this.props.onKeyPressModal);
-  }
+export default function Modal({
+  onClickModal,
+  urlImg,
+  altImg,
+  onKeyPressModal,
+}) {
+  useEffect(() => {
+    document.addEventListener('keydown', onKeyPressModal);
 
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.props.onKeyPressModal);
-  }
+    return () => {
+      document.removeEventListener('keydown', onKeyPressModal);
+    };
+  });
 
-  render() {
-    const { onClickModal, urlImg, altImg } = this.props;
-
-    return (
-      <SC.Overlay onClick={onClickModal}>
-        <SC.Modal>
-          <img src={urlImg} alt={altImg} />
-        </SC.Modal>
-      </SC.Overlay>
-    );
-  }
+  return (
+    <SC.Overlay onClick={onClickModal}>
+      <SC.Modal>
+        <img src={urlImg} alt={altImg} />
+      </SC.Modal>
+    </SC.Overlay>
+  );
 }
 
 Modal.propTypes = {

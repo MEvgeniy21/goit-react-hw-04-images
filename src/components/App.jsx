@@ -111,7 +111,7 @@ export function App() {
 
   const isLoadMore = page < Math.ceil(total / per_page);
   const currentPhotos = isWrongQuery ? oldQuery.photos : photos;
-  console.log(currentPhotos);
+
   return (
     <>
       <GlobalStyle />
