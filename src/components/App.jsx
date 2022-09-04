@@ -75,7 +75,7 @@ export function App() {
     } else if (isWrongQuery) {
       setTimeout(() => {
         window.scrollBy(0, scrollY);
-      }, 100);
+      }, 0);
     }
   }, [page, isWrongQuery, scrollY]);
 
