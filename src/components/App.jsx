@@ -20,11 +20,12 @@ const INITIAL_QUERY_PARAM = {
   search: '',
   page: 1,
   photos: [],
+  scrollY: 0,
 };
 
 export function App() {
   const [newQuery, setNewQuery] = useState(INITIAL_QUERY_PARAM);
-  const { search, page, photos } = newQuery;
+  const { search, page, photos, scrollY } = newQuery;
   const [status, setStatus] = useState(statusList.IDLE);
   const [total, setTotal] = useState(0);
   const [error, setError] = useState('');
@@ -51,20 +52,14 @@ export function App() {
           return;
         }
 
-        // if (!isWrongQuery) {
         setTotal(parseInt(materials.total, 10));
         setNewQuery(prev => ({
           ...prev,
           photos: [...prev.photos, ...materials.hits],
         }));
-        // }
 
-        // if (page === 1 && !isWrongQuery) {
         if (page === 1) {
           toast.success(`Hooray! We found ${materials.total} images.`);
-          // } else if (page !== 1 && !isWrongQuery) {
-          // } else {
-          //   setTimeout(scrollLoadMore, 100);
         }
       })
       .catch(error => {
@@ -77,9 +72,15 @@ export function App() {
   useEffect(() => {
     if (page !== 1 && !isWrongQuery) {
       setTimeout(scrollLoadMore, 100);
-      // scrollLoadMore();
+    } else if (isWrongQuery) {
+      setTimeout(() => {
+        window.scrollBy({
+          top: scrollY,
+          behavior: 'smooth',
+        });
+      }, 100);
     }
-  }, [page, isWrongQuery]);
+  }, [page, isWrongQuery, scrollY]);
 
   const searchQuery = query => {
     const querySearch = query.search.trim().toLowerCase();
@@ -89,7 +90,10 @@ export function App() {
       return;
     }
     if (!isWrongQuery) {
-      setOldQuery(newQuery);
+      setOldQuery(prev => ({
+        ...newQuery,
+        scrollY: window.scrollY,
+      }));
     }
 
     setNewQuery(prev => ({
