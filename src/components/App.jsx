@@ -74,10 +74,7 @@ export function App() {
       setTimeout(scrollLoadMore, 100);
     } else if (isWrongQuery) {
       setTimeout(() => {
-        window.scrollBy({
-          top: scrollY,
-          behavior: 'smooth',
-        });
+        window.scrollBy(0, scrollY);
       }, 100);
     }
   }, [page, isWrongQuery, scrollY]);
